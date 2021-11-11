@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Dorset Team 10 Ticketing</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Home</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <strong class="capitalize">Current Events</strong>
+
+    <ion-list>
+      <ion-item *ngFor="let event of events" (click)="openEvent(event)">
+        <img src="{{ event.thumbnail }}" alt="{{ event.title }}" />
+        <ion-label>
+          {{ event.title }}
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

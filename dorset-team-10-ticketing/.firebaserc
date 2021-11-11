@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "dorset-team-10-ticketing": {
+      "hosting": {
+        "app": [
+          "dorset-team-10-ticketing"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "dorset-team-10-ticketing"
+  }
+}

@@ -1,3 +1,112 @@
-<p>
-  booking works!
-</p>
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-button>
+      <ion-icon name="close-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-buttons slot="end">
+    <ion-button>
+      <ion-icon name="checkmark-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+  <ion-title>Booking</ion-title>
+</ion-toolbar>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <img src="{{ event.thumbnail }}" alt="{{ event.title }}" />
+      </ion-col>
+      <ion-col>
+        <ion-label>
+          {{ event.title }}
+        </ion-label>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-label>Adult - €{{ event.prices.adult }}</ion-label>
+      </ion-col>
+      <ion-col size="4">
+        <ion-buttons>
+          <ion-button (click)="addAdultTicket();">
+            <ion-icon name="add-outline"></ion-icon>
+          </ion-button>
+          <ion-button (click)="removeAdultTicket();">
+            <ion-icon name="remove-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-col>
+      <ion-col size="2">
+        <ion-input type="number" [(ngModel)]="booking.ticketCounts.adult"></ion-input>
+      </ion-col>
+    </ion-row>
+    
+    <ion-row>
+      <ion-col size="6">
+        <ion-label>Child - €{{ event.prices.child }}</ion-label>
+      </ion-col>
+      <ion-col size="4">
+        <ion-buttons>
+          <ion-button (click)="addChildTicket();">
+            <ion-icon name="add-outline"></ion-icon>
+          </ion-button>
+          <ion-button (click)="removeChildTicket();">
+            <ion-icon name="remove-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-col>
+      <ion-col size="2">
+        <ion-input type="number" [(ngModel)]="booking.ticketCounts.child"></ion-input>
+      </ion-col>
+    </ion-row>
+    
+    <ion-row>
+      <ion-col size="6">
+        <ion-label>
+          Family - €{{ event.prices.family }}
+          <ion-button (click)="showFamilyInfo()">
+            <ion-icon name="information-circle-outline"></ion-icon>
+          </ion-button>
+        </ion-label>
+      </ion-col>
+      <ion-col size="4">
+        <ion-buttons>
+          <ion-button (click)="addFamilyTicket();">
+            <ion-icon name="add-outline"></ion-icon>
+          </ion-button>
+          <ion-button (click)="removeFamilyTicket();">
+            <ion-icon name="remove-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-col>
+      <ion-col size="2">
+        <ion-input type="number" [(ngModel)]="booking.ticketCounts.family"></ion-input>
+      </ion-col>
+    </ion-row>
+    
+    <ion-row>
+      <ion-col size="6">
+        <ion-label>
+          Total price
+        </ion-label>
+      </ion-col>
+      <ion-col size="6">
+        €<ion-input type="number" [(ngModel)]="booking.totalPrice"></ion-input>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  
+
+  <!-- <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Booking</ion-title>
+    </ion-toolbar>
+  </ion-header> -->
+
+  <!-- <strong class="capitalize">Booking</strong> -->
+</ion-content>

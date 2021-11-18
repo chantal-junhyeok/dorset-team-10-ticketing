@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Event } from 'src/app/interfaces/event';
 import { DataService } from 'src/app/services/data.service';
+import { BookingComponent } from '../booking/booking.component';
 
 @Component({
   selector: 'app-home',
@@ -26,4 +27,15 @@ export class HomeComponent implements OnInit {
     this.datetimes = event.datetimes;
   }
 
+  async openBooking(event: Event, dateTime: Date) {
+    const modal = await this.modalCtrl.create({
+      component: BookingComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        'event': event,
+        'dateTime': dateTime
+      }
+    });
+    return await modal.present();
+    }
 }

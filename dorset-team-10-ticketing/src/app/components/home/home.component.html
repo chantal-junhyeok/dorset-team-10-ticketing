@@ -28,7 +28,7 @@
           <p>{{ event.description }}</p>
           <div>
             <ion-list>
-              <ion-item *ngFor="let datetime of event.datetimes">
+              <ion-item *ngFor="let datetime of event.datetimes" (click)="openBooking(event, datetime);">
                 <ion-label>
                   <h2>{{ datetime }}</h2>
                   
@@ -37,8 +37,6 @@
             </ion-list>
           </div>
         </ion-label>
-
-        
       </ion-item>
     </ion-list>
 

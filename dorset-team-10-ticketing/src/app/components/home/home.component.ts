@@ -10,6 +10,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class HomeComponent implements OnInit {
   events: Event[] = [];
+  datetimes: Date[] = [];
 
   constructor(private dataService: DataService, private cd: ChangeDetectorRef, private alertCtrl: AlertController, private modalCtrl: ModalController) {
     this.dataService.getEvents().subscribe(result => {
@@ -19,5 +20,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  openEvent(event: Event){
+    console.log(event.datetimes.join(', '));
+    this.datetimes = event.datetimes;
+  }
 
 }

@@ -17,29 +17,28 @@
   <div id="container">
     <strong class="capitalize">Current Events</strong>
 
-    <ion-list>
-      <ion-item *ngFor="let event of events" (click)="openEvent(event)">
-        <ion-thumbnail slot="start">
+    <ion-grid>
+      <ion-row  *ngFor="let event of events" (click)="openEvent(event)">
+        <ion-col size="4">
           <ion-img src="{{ event.thumbnail }}" alt="{{ event.title }}"></ion-img>
-        </ion-thumbnail>
-        <!-- <img class="thumbnail" src="{{ event.thumbnail }}" alt="{{ event.title }}" /> -->
-        <ion-label>
-          <h2>{{ event.title }}</h2>
-          <p>{{ event.description }}</p>
-          <div>
-            <ion-list>
-              <ion-item *ngFor="let datetime of event.datetimes" (click)="openBooking(event, datetime);">
-                <ion-label>
-                  <h2>{{ datetime }}</h2>
-                  
-                </ion-label>
-              </ion-item>
-            </ion-list>
-          </div>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-
-    
+        </ion-col>
+        <ion-col>
+          <ion-label>
+            <h2>{{ event.title }}</h2>
+            <p>{{ event.description }}</p>
+          </ion-label>
+        </ion-col>
+        <div class="div-dates">
+          <ion-list>
+            <ion-item *ngFor="let datetime of event.datetimes">
+              <ion-label>
+                {{ datetime.toDate() | date: 'dd/MM/yyyy HH:mm' }}
+              </ion-label>
+              <ion-button  (click)="openBooking(event, datetime);">Book</ion-button>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-row>
+    </ion-grid>
   </div>
 </ion-content>

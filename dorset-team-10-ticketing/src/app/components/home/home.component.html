@@ -19,9 +19,13 @@
 
     <ion-list>
       <ion-item *ngFor="let event of events" (click)="openEvent(event)">
-        <img src="{{ event.thumbnail }}" alt="{{ event.title }}" />
+        <ion-thumbnail slot="start">
+          <ion-img src="{{ event.thumbnail }}" alt="{{ event.title }}"></ion-img>
+        </ion-thumbnail>
+        <!-- <img class="thumbnail" src="{{ event.thumbnail }}" alt="{{ event.title }}" /> -->
         <ion-label>
-          {{ event.title }}
+          <h2>{{ event.title }}</h2>
+          <p>{{ event.description }}</p>
         </ion-label>
       </ion-item>
     </ion-list>

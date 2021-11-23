@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Booking } from 'src/app/interfaces/booking';
 import { Event } from 'src/app/interfaces/event';
+import { SeatComponent } from '../seat/seat.component';
 
 @Component({
   selector: 'app-booking',
@@ -141,5 +142,24 @@ export class BookingComponent implements OnInit {
 
   closeBookingModal() {
     this.modalCtrl.dismiss();
+  }
+
+  async openSeatModal(event: Event, dateTime: Date, booking: Booking) {
+    if (this.booking.ticketCounts.adult > 0 || this.booking.ticketCounts.child > 0 || this.booking.ticketCounts.family > 0) {
+      this.modalCtrl.dismiss();
+
+      const modal = await this.modalCtrl.create({
+        component: SeatComponent,
+        cssClass: 'my-custom-class',
+        componentProps: {
+          'event': event,
+          'dateTime': dateTime,
+          'booking': booking
+        }
+      });
+      return await modal.present();
+    } else {
+      this.showAlert('Sorry', "Please add at least one ticket to proceed with your booking.", "Confirm");
+    }
   }
 }

@@ -16,6 +16,10 @@ const routes: Routes = [
     loadChildren: () => import ('./components/booking/booking.module').then(m => m.BookingModule)
   },
   {
+    path: 'seat',
+    loadChildren: () => import ('./components/seat/seat.module').then(m => m.SeatModule)
+  },
+  {
     path: 'folder/:id',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },

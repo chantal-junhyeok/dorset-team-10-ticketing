@@ -15,7 +15,7 @@ export class BookingComponent implements OnInit {
   @Input() dateTime: Date;
   @Input() modalCtrl: ModalController;
 
-  booking: Booking;
+  @Input() booking?: Booking;
 
   constructor(private router: Router, private alertController: AlertController) { }
 
@@ -25,9 +25,9 @@ export class BookingComponent implements OnInit {
     this.booking = {
       id: '',
       ticketCounts: {
-          adult: 0,
-          child: 0,
-          family: 0
+          adult: this.booking == undefined ? 0 : this.booking.ticketCounts.adult,
+          child: this.booking == undefined ? 0 : this.booking.ticketCounts.child,
+          family: this.booking == undefined ? 0 : this.booking.ticketCounts.family
       },
       totalPrice: 0,
       customer: {
@@ -144,7 +144,7 @@ export class BookingComponent implements OnInit {
     this.modalCtrl.dismiss();
   }
 
-  async openSeatModal(event: Event, dateTime: Date, booking: Booking) {
+  async openSeatModal() {
     if (this.booking.ticketCounts.adult > 0 || this.booking.ticketCounts.child > 0 || this.booking.ticketCounts.family > 0) {
       this.modalCtrl.dismiss();
 
@@ -152,9 +152,10 @@ export class BookingComponent implements OnInit {
         component: SeatComponent,
         cssClass: 'my-custom-class',
         componentProps: {
-          'event': event,
-          'dateTime': dateTime,
-          'booking': booking
+          'event': this.event,
+          'dateTime': this.dateTime,
+          'booking': this.booking,
+          'modalCtrl': this.modalCtrl
         }
       });
       return await modal.present();

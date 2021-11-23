@@ -1,0 +1,46 @@
+ion-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+    ion-col.complete {
+        color: #42b983;
+    }
+
+    ion-col.incomplete {
+        color: #f55073;
+    }
+
+    ion-col > div {
+        background-color: #f5f7fa;;
+        border: solid 1px #ddd;
+    }
+    
+    ion-col > div.booked {
+        background-color: #020814;
+        border: solid 1px #ddd;
+    }
+    
+    ion-col > div.selected {
+        background-color: #42b983;
+        border: solid 1px #ddd;
+    }
+
+    ion-col > div.square {
+        width: 1em;
+        height: 1em;
+    }
+
+        ion-col > div.square.available {
+            background-color: #f5f7fa;;
+        }
+
+        ion-col > div.square.selected {
+            background-color: #42b983;
+        }
+        
+        ion-col > div.square.booked {
+            background-color: #020814;
+        }

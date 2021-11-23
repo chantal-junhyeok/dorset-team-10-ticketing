@@ -33,9 +33,10 @@ export class HomeComponent implements OnInit {
       cssClass: 'my-custom-class',
       componentProps: {
         'event': event,
-        'dateTime': dateTime
+        'dateTime': dateTime,
+        'modalCtrl': this.modalCtrl
       }
     });
     return await modal.present();
-    }
+  }
 }

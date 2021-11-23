@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Booking } from 'src/app/interfaces/booking';
 import { Event } from 'src/app/interfaces/event';
 
@@ -12,6 +12,7 @@ import { Event } from 'src/app/interfaces/event';
 export class BookingComponent implements OnInit {
   @Input() event: Event;
   @Input() dateTime: Date;
+  @Input() modalCtrl: ModalController;
 
   booking: Booking;
 
@@ -102,7 +103,7 @@ export class BookingComponent implements OnInit {
   }
 
   addFamilyTicket() {
-    if (this.booking.ticketCounts.adult <= 3 && this.booking.ticketCounts.child <= 0) {
+    if (this.booking.ticketCounts.adult <= 3 && this.booking.ticketCounts.child <= 0 && this.booking.ticketCounts.family < 1) {
 
       this.booking.ticketCounts.family += 1;
       this.calculateTotalPrice();
@@ -136,5 +137,9 @@ export class BookingComponent implements OnInit {
       buttons: [button]
     });
     await alert.present();
+  }
+
+  closeBookingModal() {
+    this.modalCtrl.dismiss();
   }
 }

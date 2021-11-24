@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ContactRoutingModule } from './contact-routing.module';
 import { ContactComponent } from './contact.component';
 import { IonicModule } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -12,7 +13,7 @@ import { IonicModule } from '@ionic/angular';
     CommonModule,
     ContactRoutingModule,
     IonicModule,
-    ContactRoutingModule
+    FormsModule
   ]
 })
 export class ContactModule { }

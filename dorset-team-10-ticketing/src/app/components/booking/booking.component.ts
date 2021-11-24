@@ -23,7 +23,6 @@ export class BookingComponent implements OnInit {
     this.validateEvent();
 
     this.booking = {
-      id: '',
       ticketCounts: {
           adult: this.booking == undefined ? 0 : this.booking.ticketCounts.adult,
           child: this.booking == undefined ? 0 : this.booking.ticketCounts.child,

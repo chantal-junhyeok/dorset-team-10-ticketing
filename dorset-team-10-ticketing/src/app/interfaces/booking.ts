@@ -1,5 +1,4 @@
 export interface Booking {
-    id: string;
     ticketCounts: {
         adult: number;
         child: number;

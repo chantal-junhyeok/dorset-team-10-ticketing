@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Booking } from 'src/app/interfaces/booking';
 import { BookingComponent } from '../booking/booking.component';
+import { ContactComponent } from '../contact/contact.component';
 @Component({
   selector: 'app-seat',
   templateUrl: './seat.component.html',
@@ -37,6 +38,15 @@ export class SeatComponent implements OnInit {
     for (let i = 0; i < 10; i++) {
       this.columnIds.push(i);
     }
+
+    // Load seats, if already selected.
+    this.selectedSeats = this.booking.seats.map(seat => {
+      return {
+        'position': seat,
+        'selected': true,
+        'booked': false
+      }
+    });
 
     this.initializeSeats();
   }
@@ -121,6 +131,26 @@ export class SeatComponent implements OnInit {
         'dateTime': this.dateTime,
         'modalCtrl': this.modalCtrl,
         'booking': this.booking
+      }
+    });
+    return await modal.present();
+  }
+
+  async openContactModal() {
+    this.booking.seats = this.selectedSeats.map(seat => {
+      return seat.position;
+    });
+
+    this.modalCtrl.dismiss();
+
+    const modal = await this.modalCtrl.create({
+      component: ContactComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        'event': this.event,
+        'dateTime': this.dateTime,
+        'booking': this.booking,
+        'modalCtrl': this.modalCtrl
       }
     });
     return await modal.present();

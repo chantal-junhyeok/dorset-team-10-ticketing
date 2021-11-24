@@ -20,6 +20,10 @@ const routes: Routes = [
     loadChildren: () => import ('./components/seat/seat.module').then(m => m.SeatModule)
   },
   {
+    path: 'contact',
+    loadChildren: () => import ('./components/contact/contact.module').then(m => m.ContactModule)
+  },
+  {
     path: 'folder/:id',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },

@@ -22,23 +22,25 @@ export class BookingComponent implements OnInit {
   ngOnInit() {
     this.validateEvent();
 
-    this.booking = {
-      ticketCounts: {
-          adult: this.booking == undefined ? 0 : this.booking.ticketCounts.adult,
-          child: this.booking == undefined ? 0 : this.booking.ticketCounts.child,
-          family: this.booking == undefined ? 0 : this.booking.ticketCounts.family
-      },
-      totalPrice: 0,
-      customer: {
+    if (this.booking == null) {
+      this.booking = {
+        ticketCounts: {
+          adult: 0,
+          child: 0,
+          family: 0
+        },
+        totalPrice: 0,
+        customer: {
           firstname: '',
           lastname: '',
           email: '',
-      },
-      eventId: this.event.id,
-      seats: []
-    };
+        },
+        eventId: this.event.id,
+        seats: []
+      }
+    }
   }
-  
+
   validateEvent() {
     if (this.event == null || this.dateTime == null) {
       this.router.navigate(['home']);
@@ -48,12 +50,14 @@ export class BookingComponent implements OnInit {
   showFamilyInfo() {
     this.showAlert('Family ticket', 'A family ticket contains 2 adult tickets and 4 child tickets.', 'Okay');
   }
-  
+
   addAdultTicket() {
     // TODO: Replace number with environment variable (config)
     if (this.booking.ticketCounts.adult + this.booking.ticketCounts.family * 2 < 5) {
       this.booking.ticketCounts.adult += 1;
       this.calculateTotalPrice();
+    } else {
+      this.showAlert('Sorry', 'Max. 5 adult tickets (incl. 2 in a family ticket) can be booked at a time.', 'Okay');
     }
     this.checkAndReplaceWithFamilyTicket();
   }
@@ -69,12 +73,14 @@ export class BookingComponent implements OnInit {
     if (this.booking.ticketCounts.child + this.booking.ticketCounts.family * 4 < 4) {
       if (this.booking.ticketCounts.adult > 0) {
         // TODO: Replace number with environment variable (config)
-          this.booking.ticketCounts.child += 1;
-          this.calculateTotalPrice();
+        this.booking.ticketCounts.child += 1;
+        this.calculateTotalPrice();
         this.checkAndReplaceWithFamilyTicket();
       } else {
         this.showAlert('Sorry', "A child or children must be accompanied by at least one adult.", "Confirm");
       }
+    } else {
+      this.showAlert('Sorry', 'Max. 4 children tickets (incl. 4 in a family ticket) can be booked at a time.', 'Okay');
     }
   }
 
@@ -86,18 +92,17 @@ export class BookingComponent implements OnInit {
   }
 
   checkAndReplaceWithFamilyTicket() {
-
     if (this.booking.ticketCounts.adult >= 2 && this.booking.ticketCounts.child >= 4) {
       const totalWithoutFamily = this.booking.totalPrice;
-      
+
       this.booking.ticketCounts.family += 1;
       this.booking.ticketCounts.child -= 4;
       this.booking.ticketCounts.adult -= 2;
-      
+
       this.calculateTotalPrice();
 
       const savedAmount = totalWithoutFamily - this.booking.totalPrice;
-      
+
       this.showAlert('Family Ticket', `Your tickets are replaced with one family ticket. You saved €${savedAmount}`, 'Confirm');
     }
   }
@@ -107,6 +112,8 @@ export class BookingComponent implements OnInit {
 
       this.booking.ticketCounts.family += 1;
       this.calculateTotalPrice();
+    } else {
+      this.showAlert('Sorry', 'You can only book one familiy ticket at a time.', 'Okay');
     }
   }
 
@@ -139,8 +146,28 @@ export class BookingComponent implements OnInit {
     await alert.present();
   }
 
-  closeBookingModal() {
-    this.modalCtrl.dismiss();
+  async closeBookingModal() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Cancel Booking',
+      message: 'Do you want to cancel the current booking? All information will be lost.',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Yes',
+          handler: () => {
+            this.modalCtrl.dismiss();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
   async openSeatModal() {

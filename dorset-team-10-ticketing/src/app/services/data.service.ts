@@ -18,9 +18,9 @@ export class DataService {
     return collectionData(events, { idField: 'id' }) as Observable<Event[]>;
   }
 
-  async getBookings(eventId: string): Promise<Booking[]> {
+  async getBookings(eventId: string, dateTime: Date): Promise<Booking[]> {
     const bookingsRef = collection(this.firestore, 'bookings');
-    const q = query(bookingsRef, where("eventId", "==", eventId));
+    const q = query(bookingsRef, where("eventId", "==", eventId), where("dateTime", "==", dateTime));
     const querySnapshot = await getDocs(q);
     const result: Booking[] = [];
     querySnapshot.forEach((doc) => {

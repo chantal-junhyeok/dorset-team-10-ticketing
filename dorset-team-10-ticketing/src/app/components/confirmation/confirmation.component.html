@@ -31,9 +31,9 @@
   </ion-grid>
 
   <ion-list>
-    <ion-item *ngIf="booking != null && booking.datetime != null">
+    <ion-item *ngIf="booking != null && booking.dateTime != null">
       <ion-label for="datetime" position="stacked">Date and time:</ion-label>
-      <ion-input id="datetime" type="text" disabled> {{ booking.datetime.toDate() | date: 'dd/MM/yyyy HH:mm' }}
+      <ion-input id="datetime" type="text" disabled> {{ booking.dateTime.toDate() | date: 'dd/MM/yyyy HH:mm' }}
       </ion-input>
     </ion-item>
 

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Booking } from 'src/app/interfaces/booking';
 import { Event } from 'src/app/interfaces/event';
+import { DataService } from 'src/app/services/data.service';
 import { SeatComponent } from '../seat/seat.component';
 
 @Component({
@@ -17,10 +18,12 @@ export class BookingComponent implements OnInit {
 
   @Input() booking?: Booking;
 
-  constructor(private router: Router, private alertController: AlertController) { }
+  availableSeats: number;
+
+  constructor(private router: Router, private dataService: DataService, private alertController: AlertController) { }
 
   ngOnInit() {
-    this.validateEvent();
+    this.validateInputs();
 
     if (this.booking == null) {
       this.booking = {
@@ -36,13 +39,32 @@ export class BookingComponent implements OnInit {
           email: '',
         },
         eventId: this.event.id,
-        seats: []
+        seats: [],
+        dateTime: this.dateTime
       }
     }
+
+    // Check if enough seats are available
+    this.dataService.getBookings(this.event.id, this.booking.dateTime)
+    .then(result => {
+      // Collect all booked seats
+      let bookings = result;
+      const bookedSeats: string[] = [];
+      bookings.forEach(booking => {
+        booking.seats.forEach(seat => {
+          bookedSeats.push(seat);
+        });
+      });
+      
+      this.availableSeats = 100 - bookedSeats.length;
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }
 
-  validateEvent() {
-    if (this.event == null || this.dateTime == null) {
+  validateInputs() {
+    if (this.event == null || this.dateTime == null || this.modalCtrl == null) {
       this.router.navigate(['home']);
     }
   }
@@ -172,19 +194,24 @@ export class BookingComponent implements OnInit {
 
   async openSeatModal() {
     if (this.booking.ticketCounts.adult > 0 || this.booking.ticketCounts.child > 0 || this.booking.ticketCounts.family > 0) {
-      this.modalCtrl.dismiss();
+      if (this.booking.ticketCounts.adult + this.booking.ticketCounts.child + this.booking.ticketCounts.family * 6 < this.availableSeats) {
+        this.modalCtrl.dismiss();
 
-      const modal = await this.modalCtrl.create({
-        component: SeatComponent,
-        cssClass: 'my-custom-class',
-        componentProps: {
-          'event': this.event,
-          'dateTime': this.dateTime,
-          'booking': this.booking,
-          'modalCtrl': this.modalCtrl
-        }
-      });
-      return await modal.present();
+        const modal = await this.modalCtrl.create({
+          component: SeatComponent,
+          cssClass: 'my-custom-class',
+          componentProps: {
+            'event': this.event,
+            'dateTime': this.dateTime,
+            'booking': this.booking,
+            'modalCtrl': this.modalCtrl
+          }
+        });
+
+        return await modal.present();
+      } else {
+        this.showAlert('Sorry', "Not enough seats are avilable. Please choose another session.", "Confirm");
+      }
     } else {
       this.showAlert('Sorry', "Please add at least one ticket to proceed with your booking.", "Confirm");
     }

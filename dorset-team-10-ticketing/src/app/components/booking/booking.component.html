@@ -120,6 +120,7 @@
             {{ dateTime.toDate() | date: 'dd/MM/yyyy HH:mm' }}
           </h3>
           <p>{{ event.description }}</p>
+          <h2>{{ availableSeats }} seats available</h2>
         </ion-label>
       </ion-col>
     </ion-row>
@@ -141,7 +142,7 @@
       </ion-col>
       <ion-col>{{ booking.ticketCounts.adult }}</ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="event.ageRating != 'X'">
       <ion-col>Child</ion-col>
       <ion-col>€{{ event.prices.child }}</ion-col>
       <ion-col>

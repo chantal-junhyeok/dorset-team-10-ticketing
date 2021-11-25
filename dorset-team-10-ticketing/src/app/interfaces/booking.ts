@@ -12,4 +12,5 @@ export interface Booking {
     };
     eventId: string;
     seats: string[];
+    dateTime: Date;
 }

@@ -12,7 +12,6 @@ import { SeatComponent } from '../seat/seat.component';
 })
 export class ContactComponent implements OnInit {
   @Input() event: Event;
-  @Input() dateTime: Date;
   @Input() booking: Booking;
   @Input() modalCtrl: ModalController;
 
@@ -30,7 +29,7 @@ export class ContactComponent implements OnInit {
       cssClass: 'my-custom-class',
       componentProps: {
         'event': this.event,
-        'dateTime': this.dateTime,
+        'dateTime': this.booking.dateTime,
         'modalCtrl': this.modalCtrl,
         'booking': this.booking
       }

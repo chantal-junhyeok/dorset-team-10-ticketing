@@ -12,7 +12,6 @@ import { ContactComponent } from '../contact/contact.component';
 })
 export class SeatComponent implements OnInit {
   @Input() event: Event;
-  @Input() dateTime: Date;
   @Input() booking: Booking;
   @Input() modalCtrl: ModalController;
 
@@ -46,7 +45,7 @@ export class SeatComponent implements OnInit {
     // Load booked seats
     console.log(this.event.id);
 
-    this.dataService.getBookings(this.event.id)
+    this.dataService.getBookings(this.event.id, this.booking.dateTime)
       .then(result => {
         // Collect all booked seats names.
         let bookings = result;
@@ -141,7 +140,7 @@ export class SeatComponent implements OnInit {
       cssClass: 'my-custom-class',
       componentProps: {
         'event': this.event,
-        'dateTime': this.dateTime,
+        'dateTime': this.booking.dateTime,
         'modalCtrl': this.modalCtrl,
         'booking': this.booking
       }
@@ -160,7 +159,6 @@ export class SeatComponent implements OnInit {
         cssClass: 'my-custom-class',
         componentProps: {
           'event': this.event,
-          'dateTime': this.dateTime,
           'booking': this.booking,
           'modalCtrl': this.modalCtrl
         }

@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Booking } from 'src/app/interfaces/booking';
+import { Event } from 'src/app/interfaces/event';
+import { DataService } from 'src/app/services/data.service';
 import { BookingComponent } from '../booking/booking.component';
 import { ContactComponent } from '../contact/contact.component';
 @Component({
@@ -18,109 +20,120 @@ export class SeatComponent implements OnInit {
 
   ticketCount: number;
 
-  rowIds = [];
-  columnIds = [];
+  rows: Row[] = [];
 
-  rows = [];
+  selectedSeats: Seat[] = [];
 
-  selectedSeats = [];
-
-  constructor() { }
+  constructor(private dataService: DataService, private alertController: AlertController) { }
 
   ngOnInit() {
+    // Count the number of tickets.
     this.ticketCount = this.booking.ticketCounts.adult + this.booking.ticketCounts.child + this.booking.ticketCounts.family * 6;
 
+    // Create seat objects and check if they were previously selected.
     for (let i = 0; i < 10; i++) {
-      const rowId = String.fromCharCode(65 + i);
-      this.rowIds.push(rowId);
-    }
-
-    for (let i = 0; i < 10; i++) {
-      this.columnIds.push(i);
-    }
-
-    // Load seats, if already selected.
-    this.selectedSeats = this.booking.seats.map(seat => {
-      return {
-        'position': seat,
-        'selected': true,
-        'booked': false
+      const rowName = String.fromCharCode(65 + i);
+      const row = { index: i, name: rowName, seats: [] };
+      for (let j = 0; j < 10; j++) {
+        const seatName = `${rowName}${j}`;
+        const seat = { index: j, name: seatName, booked: false, selected: this.booking.seats.includes(seatName) };
+        row.seats.push(seat);
       }
-    });
+      this.rows.push(row);
+    }
+    this.updateSelectedSeats();
 
-    this.initializeSeats();
-  }
+    // Load booked seats
+    console.log(this.event.id);
 
-  initializeSeats() {
-    // Load all the bookings
-
-    // Save booked seats
-    let bookedSeats = [];
-
-    // Render seats
-    this.rowIds.forEach(rowId => {
-      const seats = [];
-
-      this.columnIds.forEach(columnId => {
-        const seatId = rowId + columnId;
-
-        const seat = {
-          'position': seatId,
-          'booked': false,
-          'selected': false
-        };
-
-        if (bookedSeats.includes(seatId)) {
-          seat.booked = true;
-        }
-
-        seats.push(seat);
-      });
-
-      this.rows.push(seats);
-    });
-  }
-
-  selectSeat(rowIndex, columnIndex) {
-    if (this.autoselect == true) {
-      // Calculate score for each seat
-      const seats = [];
-
-      this.rows.forEach((row, i) => {
-        row.forEach((seat, j) => {
-          seat.selected = false;
-
-          const score = Math.abs(rowIndex - i) * this.ticketCount + Math.abs(columnIndex - j); // Spread more as tickets are more, because big group tend to stay in a row
-          seat.score = score;
-          seats.push(seat);
+    this.dataService.getBookings(this.event.id)
+      .then(result => {
+        // Collect all booked seats names.
+        let bookings = result;
+        const bookedSeats = [];
+        bookings.forEach(booking => {
+          booking.seats.forEach(seat => {
+            bookedSeats.push(seat);
+          });
         });
-      });
 
-      this.selectedSeats = seats
-        .sort((a, b) => a.score - b.score)
-        .slice(0, this.ticketCount);
-
-      this.selectedSeats.forEach(selectedSeat => {
-        selectedSeat.selected = true;
+        // Mark all booked seats
+        this.rows.forEach(row => {
+          row.seats.forEach(seat => {
+            if (bookedSeats.includes(seat.name)) {
+              seat.booked = true;
+            }
+          });
+        });
+      })
+      .catch(error => {
+        console.log(error);
       });
-    } else {
-      const seat = this.rows[rowIndex][columnIndex];
-      
-      if (seat.booked == false) {
-        if (seat.selected == false) {
-          if (this.selectedSeats.length < this.ticketCount) {
+  }
+
+  selectSeat(chosenRow: Row, chosenSeat: Seat) {
+    if (!chosenSeat.booked) {
+      if (this.autoselect == true) {
+        const seats = [];
+        // Reset selection
+        this.rows.forEach(row => {
+          row.seats.forEach(seat => {
+            seat.selected = false;
+          });
+        });
+
+        // Calculate the distance score for each seat
+        this.rows.forEach(row => {
+          row.seats.forEach(seat => {
+            seat.score = seat.booked ? 100 : Math.abs(chosenRow.index - row.index) * this.ticketCount + Math.abs(chosenSeat.index - seat.index);
+            // If adjoined seat is selected lesson score to priotize it
+            if ((row.seats[seat.index - 1] != undefined && row.seats[seat.index - 1].selected) || 
+              (row.seats[seat.index + 1] != undefined && row.seats[seat.index + 1].selected)) {
+                seat.score -= this.ticketCount;
+            }
+            seats.push(seat);
+          });
+        });
+        // Select the seats with the lowest distance scores
+        seats
+          .sort((a, b) => a.score - b.score)
+          .slice(0, this.ticketCount)
+          .forEach(seat => {
             seat.selected = true;
-            this.selectedSeats.push(seat);
-          }
+          });
+      } else {
+        if (!chosenSeat.selected) {
+          if (this.ticketCount > this.selectedSeats.length)
+            chosenSeat.selected = true;
         } else {
-          seat.selected = false;
-          this.selectedSeats.splice(this.selectedSeats.indexOf(seat), 1);
+          chosenSeat.selected = false;
         }
       }
     }
+
+    this.updateSelectedSeats();
+  }
+
+  updateSelectedSeats(): void {
+    this.selectedSeats = [];
+    this.rows.forEach(row => {
+      row.seats.forEach(seat => {
+        if (seat.selected) {
+          this.selectedSeats.push(seat);
+        }
+      });
+    });
+  }
+
+  saveSelectedSeats(): void {
+    this.booking.seats = this.selectedSeats.map(seat => {
+      return seat.name;
+    });
   }
 
   async closeSeatModal() {
+    this.saveSelectedSeats();
+
     this.modalCtrl.dismiss();
 
     const modal = await this.modalCtrl.create({
@@ -137,22 +150,43 @@ export class SeatComponent implements OnInit {
   }
 
   async openContactModal() {
-    this.booking.seats = this.selectedSeats.map(seat => {
-      return seat.position;
-    });
+    this.saveSelectedSeats();
 
-    this.modalCtrl.dismiss();
+    if (this.selectedSeats.length == this.ticketCount) {
+      this.modalCtrl.dismiss();
 
-    const modal = await this.modalCtrl.create({
-      component: ContactComponent,
-      cssClass: 'my-custom-class',
-      componentProps: {
-        'event': this.event,
-        'dateTime': this.dateTime,
-        'booking': this.booking,
-        'modalCtrl': this.modalCtrl
-      }
-    });
-    return await modal.present();
+      const modal = await this.modalCtrl.create({
+        component: ContactComponent,
+        cssClass: 'my-custom-class',
+        componentProps: {
+          'event': this.event,
+          'dateTime': this.dateTime,
+          'booking': this.booking,
+          'modalCtrl': this.modalCtrl
+        }
+      });
+      return await modal.present();
+    } else {
+      const alert = await this.alertController.create({
+        header: 'Sorry',
+        message: 'Please select enought seats.',
+        buttons: ['Okay']
+      });
+      await alert.present();
+    }
   }
+}
+
+interface Row {
+  index: number;
+  name: string;
+  seats: Seat[];
+}
+
+interface Seat {
+  index: number;
+  name: string;
+  booked: boolean;
+  selected: boolean;
+  score?: number;
 }

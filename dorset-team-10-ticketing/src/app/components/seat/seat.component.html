@@ -15,20 +15,20 @@
 <ion-content [fullscreen]="true">
   <ion-grid>
     <ion-row>
-      <ion-col size="12">
+      <ion-col>
         Screen
       </ion-col>
     </ion-row>
-    <ion-row>
+    <!-- <ion-row>
       <ion-col></ion-col>
       <ion-col *ngFor="let columnId of columnIds">
         {{ columnId }}
       </ion-col>
-    </ion-row>
-    <ion-row *ngFor="let row of rows; index as i;">
-      <ion-col>{{ rowIds[i] }}</ion-col>
-      <ion-col *ngFor="let seat of row; index as j;">
-        <div [ngClass]="{'booked': seat.booked == true, 'selected': seat.selected == true }" (click)="selectSeat(i, j);">{{ seat.position }}</div>
+    </ion-row> -->
+    <ion-row *ngFor="let row of rows">
+      <!-- <ion-col>{{ rowIds[i] }}</ion-col> -->
+      <ion-col *ngFor="let seat of row.seats">
+        <div [ngClass]="{'booked': seat.booked == true, 'selected': seat.selected == true }" (click)="selectSeat(row, seat);">{{ seat.name }}</div>
       </ion-col>
     </ion-row>
   </ion-grid>

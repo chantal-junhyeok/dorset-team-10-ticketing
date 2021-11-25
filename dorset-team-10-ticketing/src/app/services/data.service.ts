@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { addDoc, collection } from '@firebase/firestore';
+import { addDoc, collection, doc, getDoc } from '@firebase/firestore';
 import { collectionData } from 'rxfire/firestore';
 import { Observable } from 'rxjs';
 import { Booking } from '../interfaces/booking';
@@ -30,5 +30,27 @@ export class DataService {
       .catch(error => console.error("Error adding document: ", error));
     
     return id;
+  }
+
+  async getBooking(id : string): Promise<Booking> {
+    const bookingRef = doc(this.firestore, `bookings/${id}`);
+    const bookingSnap = await getDoc(bookingRef);
+
+    if (bookingSnap.exists()) {
+      return bookingSnap.data() as Booking;
+    } else {
+      return null;
+    }
+  }
+
+  async getEvent(id : string): Promise<Event> {
+    const ref = doc(this.firestore, `events/${id}`);
+    const snap = await getDoc(ref);
+
+    if (snap.exists()) {
+      return snap.data() as Event;
+    } else {
+      return null;
+    }
   }
 }

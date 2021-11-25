@@ -13,16 +13,19 @@
 </ion-toolbar>
 
 <ion-content [fullscreen]="true">
-  <ion-item>
-    <ion-label for="firstname" position="stacked">First name:</ion-label>
-    <ion-input id="firstname" [(ngModel)]="booking.customer.firstname" type="text" placeholder="Please enter your first name."></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label for="lastname" position="stacked">Last name:</ion-label>
-    <ion-input id="lastname" [(ngModel)]="booking.customer.lastname" type="text" placeholder="Please enter your last name."></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label for="email" position="stacked">Email address:</ion-label>
-    <ion-input id="email" [(ngModel)]="booking.customer.email" type="email" placeholder="Please enter your email address."></ion-input>
-  </ion-item>
+  <ion-list>
+    <ion-item>
+      <ion-label for="firstname" position="stacked">First name:</ion-label>
+      <ion-input id="firstname" [(ngModel)]="booking.customer.firstname" type="text" placeholder="Please enter your first name."></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label for="lastname" position="stacked">Last name:</ion-label>
+      <ion-input id="lastname" [(ngModel)]="booking.customer.lastname" type="text" placeholder="Please enter your last name."></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label for="email" position="stacked">Email address:</ion-label>
+      <ion-input id="email" [(ngModel)]="booking.customer.email" type="email" placeholder="Please enter your email address."></ion-input>
+    </ion-item>
+  </ion-list>
+  
 </ion-content>

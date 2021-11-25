@@ -16,6 +16,8 @@ export class ContactComponent implements OnInit {
   @Input() booking: Booking;
   @Input() modalCtrl: ModalController;
 
+  bookingId: string;
+
   constructor(private dataService: DataService, private alertController: AlertController) { }
 
   ngOnInit() { }
@@ -36,14 +38,15 @@ export class ContactComponent implements OnInit {
     return await modal.present();
   }
 
-  async openConfirmationModal(id: string) {
+  async openConfirmationModal() {
     this.modalCtrl.dismiss();
 
     const modal = await this.modalCtrl.create({
       component: ConfirmationComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-        'id': id
+        'modalCtrl': this.modalCtrl,
+        'bookingId': this.bookingId
       }
     });
     return await modal.present();
@@ -61,9 +64,9 @@ export class ContactComponent implements OnInit {
   async saveBooking() {
     if (this.validate()) {
       const id = await this.dataService.saveBooking(this.booking);
-      console.log(id);
       if (id) {
-        this.openConfirmationModal(id);
+        this.bookingId = id;
+        this.openConfirmationModal();
       }
     }
 

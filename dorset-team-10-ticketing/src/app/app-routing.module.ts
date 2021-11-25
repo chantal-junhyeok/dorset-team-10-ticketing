@@ -24,6 +24,10 @@ const routes: Routes = [
     loadChildren: () => import ('./components/contact/contact.module').then(m => m.ContactModule)
   },
   {
+    path: 'confirmation',
+    loadChildren: () => import ('./components/confirmation/confirmation.module').then(m => m.ConfirmationModule)
+  },
+  {
     path: 'folder/:id',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },

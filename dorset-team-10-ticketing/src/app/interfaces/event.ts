@@ -9,5 +9,5 @@ export interface Event {
         child: number;
         family: number;
     };
-    datetimes: Date[];
+    datetimes: any[];
 }

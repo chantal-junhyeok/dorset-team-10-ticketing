@@ -32,6 +32,32 @@ ion-menu-button {
     text-decoration: none;
   }
 
+  ion-grid {
+    margin-bottom: 20px;
+    height: 100%;
+    justify-content: center;
+  }
+
   ion-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  ion-buttons {
+    display: inline;
+    float: right;
+  }
+
+  ion-input {
+    background-color: var(--ion-color-medium);
+  }
+
+  #filter-bar {
     margin-bottom: 20px;
   }
+
+ion-checkbox {
+  margin-right: 0.5em;
+}

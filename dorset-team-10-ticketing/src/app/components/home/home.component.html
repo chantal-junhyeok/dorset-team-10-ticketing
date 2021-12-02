@@ -22,7 +22,7 @@
     <strong class="capitalize">Current Events</strong>
 
     <ion-grid>
-      <ion-row  *ngFor="let event of events" (click)="openEvent(event)">
+      <ion-row *ngFor="let event of events; let i = index" (click)="openEvent(i)">
         <ion-col size="4">
           <ion-img src="{{ event.thumbnail }}" alt="{{ event.title }}"></ion-img>
         </ion-col>
@@ -33,7 +33,7 @@
             <h3>{{ event.ageRating }} rated</h3>
           </ion-label>
         </ion-col>
-        <div class="div-dates">
+        <div class="div-dates" style="display: none;">
           <ion-list>
             <ion-item *ngFor="let datetime of event.datetimes">
               <ion-label>

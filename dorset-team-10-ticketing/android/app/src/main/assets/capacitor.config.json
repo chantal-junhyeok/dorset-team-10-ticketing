@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "dorset-team-10-ticketing",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

@@ -130,11 +130,19 @@ export class BookingComponent implements OnInit {
   }
 
   addFamilyTicket() {
-    if (this.booking.ticketCounts.adult <= 3 && this.booking.ticketCounts.child <= 0 && this.booking.ticketCounts.family < 1) {
-
-      this.booking.ticketCounts.family += 1;
-      this.calculateTotalPrice();
-    } else {
+    if (this.booking.ticketCounts.family < 1) {
+      if (this.booking.ticketCounts.adult <= 3) {
+        if (this.booking.ticketCounts.child <= 0) {
+          this.booking.ticketCounts.family += 1;
+          this.calculateTotalPrice();
+        } else {
+          this.showAlert('Sorry', 'Max. 4 children tickets (incl. 4 in a family ticket) can be booked at a time.', 'Okay');
+        }
+      } else {
+        this.showAlert('Sorry', 'Max. 5 adult tickets (incl. 2 in a family ticket) can be booked at a time.', 'Okay');
+      }
+    }
+    else {
       this.showAlert('Sorry', 'You can only book one familiy ticket at a time.', 'Okay');
     }
   }

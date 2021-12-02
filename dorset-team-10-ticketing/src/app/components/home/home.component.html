@@ -3,7 +3,11 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Dorset Team 10 Ticketing</ion-title>
+    <ion-title>
+      <img src="../../../assets/images/Logo.svg" />
+      Show
+      <b>PAW</b>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -26,6 +30,7 @@
           <ion-label>
             <h2>{{ event.title }}</h2>
             <p>{{ event.description }}</p>
+            <h3>{{ event.ageRating }} rated</h3>
           </ion-label>
         </ion-col>
         <div class="div-dates">

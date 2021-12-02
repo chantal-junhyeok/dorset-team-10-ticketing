@@ -120,6 +120,7 @@
             {{ dateTime.toDate() | date: 'dd/MM/yyyy HH:mm' }}
           </h3>
           <p>{{ event.description }}</p>
+          <h3>{{ event.ageRating }} rated</h3>
           <h2>{{ availableSeats }} seats available</h2>
         </ion-label>
       </ion-col>
@@ -132,11 +133,11 @@
       <ion-col>€{{ event.prices.adult }}</ion-col>
       <ion-col>
         <ion-buttons>
-          <ion-button (click)="addAdultTicket();">
-            <ion-icon name="add-outline"></ion-icon>
+          <ion-button class="add" (click)="addAdultTicket();">
+            <ion-icon name="add-circle-outline"></ion-icon>
           </ion-button>
           <ion-button (click)="removeAdultTicket();">
-            <ion-icon name="remove-outline"></ion-icon>
+            <ion-icon name="remove-circle-outline"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-col>
@@ -147,11 +148,11 @@
       <ion-col>€{{ event.prices.child }}</ion-col>
       <ion-col>
         <ion-buttons>
-          <ion-button (click)="addChildTicket();">
-            <ion-icon name="add-outline"></ion-icon>
+          <ion-button class="add" (click)="addChildTicket();">
+            <ion-icon name="add-circle-outline"></ion-icon>
           </ion-button>
           <ion-button (click)="removeChildTicket();">
-            <ion-icon name="remove-outline"></ion-icon>
+            <ion-icon name="remove-circle-outline"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-col>
@@ -165,11 +166,11 @@
       <ion-col>€{{ event.prices.family }}</ion-col>
       <ion-col>
         <ion-buttons>
-          <ion-button (click)="addFamilyTicket();">
-            <ion-icon name="add-outline"></ion-icon>
+          <ion-button class="add" (click)="addFamilyTicket();">
+            <ion-icon name="add-circle-outline"></ion-icon>
           </ion-button>
           <ion-button (click)="removeFamilyTicket();">
-            <ion-icon name="remove-outline"></ion-icon>
+            <ion-icon name="remove-circle-outline"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-col>

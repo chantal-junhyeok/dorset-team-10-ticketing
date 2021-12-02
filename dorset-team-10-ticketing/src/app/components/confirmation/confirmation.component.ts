@@ -29,7 +29,7 @@ export class ConfirmationComponent implements OnInit {
 
       this.getBookingTickets();
       this.bookingCustomerName = this.booking.customer.firstname + " " + this.booking.customer.lastname;
-      this.seats = this.booking.seats.toString();
+      this.seats = this.booking.seats.join(', ');
     }
     if (!this.booking || !this.event) {
       this.showAlert('Sorry', 'Data could not retrieve from the database.', 'Confirm');

@@ -6,26 +6,27 @@ ion-col {
 }
 
     ion-col.complete {
-        color: #42b983;
+        color: var(--ion-color-dark);
     }
 
     ion-col.incomplete {
-        color: #f55073;
+        color: var(--ion-color-primary);
     }
 
     ion-col > div {
-        background-color: #f5f7fa;;
+        background-color: var(--ion-color-dark);
         border: solid 1px #ddd;
+        width: 1.5em;
+        text-align: center;
+        color: var(--ion-color-light);
     }
     
     ion-col > div.booked {
-        background-color: #020814;
-        border: solid 1px #ddd;
+        background-color: var(--ion-color-light);
     }
     
     ion-col > div.selected {
-        background-color: #42b983;
-        border: solid 1px #ddd;
+        background-color: var(--ion-color-primary);
     }
 
     ion-col > div.square {
@@ -38,7 +39,7 @@ ion-col {
         }
 
         ion-col > div.square.selected {
-            background-color: #42b983;
+            background-color: var(--ion-color-primary);
         }
         
         ion-col > div.square.booked {

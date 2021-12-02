@@ -143,7 +143,7 @@ export class BookingComponent implements OnInit {
       }
     }
     else {
-      this.showAlert('Sorry', 'You can only book one familiy ticket at a time.', 'Okay');
+      this.showAlert('Sorry', 'You can only book one family ticket at a time.', 'Okay');
     }
   }
 

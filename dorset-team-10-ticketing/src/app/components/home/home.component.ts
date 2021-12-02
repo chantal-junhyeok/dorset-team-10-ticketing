@@ -4,6 +4,8 @@ import { Event } from 'src/app/interfaces/event';
 import { DataService } from 'src/app/services/data.service';
 import { BookingComponent } from '../booking/booking.component';
 
+import * as $ from 'jquery';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -13,6 +15,8 @@ export class HomeComponent implements OnInit {
   events: Event[] = [];
   datetimes: Date[] = [];
 
+  currentOpenIndex: number;
+
   constructor(private dataService: DataService, private cd: ChangeDetectorRef, private alertCtrl: AlertController, private modalCtrl: ModalController) {
     this.dataService.getEvents().subscribe(result => {
       this.events = result;
@@ -20,11 +24,18 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
-  openEvent(event: Event){
-    console.log(event.datetimes.join(', '));
-    this.datetimes = event.datetimes;
+  openEvent(index: number){
+    if (this.currentOpenIndex != null) {
+      $($('.div-dates')[this.currentOpenIndex]).slideUp();
+    }
+
+    if (this.currentOpenIndex != index) {
+      this.currentOpenIndex = index;
+      $($('.div-dates')[index]).slideDown();
+    }
   }
 
   async openBooking(event: Event, dateTime: Date) {

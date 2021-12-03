@@ -16,10 +16,6 @@ export class HomeComponent implements OnInit {
 
   filteredEvents: Event[] = [];
 
-  datetimes: Date[] = [];
-
-  currentOpenIndex: number;
-
   query: string;
   ageG: boolean = true;
   agePG: boolean = true;
@@ -39,14 +35,7 @@ export class HomeComponent implements OnInit {
   }
 
   openEvent(index: number){
-    if (this.currentOpenIndex != null) {
-      $($('.div-dates')[this.currentOpenIndex]).slideUp();
-    }
-
-    if (this.currentOpenIndex != index) {
-      this.currentOpenIndex = index;
-      $($('.div-dates')[index]).slideDown();
-    }
+    $($('.div-dates')[index]).slideToggle();
   }
 
   async openBooking(event: Event, dateTime: Date) {

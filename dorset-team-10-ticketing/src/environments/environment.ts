@@ -11,7 +11,7 @@ export const environment = {
     storageBucket: "dorset-team-10-ticketing-bef5c.appspot.com",
     messagingSenderId: "1015301773122",
     appId: "1:1015301773122:web:0cc341a1f6ce91cf785adb",
-    measurementId: "G-X09EYQ49G0"
+    measurementId: "${config.measurementId}"
   }
 };
 

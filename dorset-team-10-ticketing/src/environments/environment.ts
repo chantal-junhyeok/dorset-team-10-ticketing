@@ -5,12 +5,12 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyAaBF6ioQQH2KaGnMFzD7JMUUAKaoE6qTc",
-    authDomain: "dorset-team-10-ticketing.firebaseapp.com",
-    projectId: "dorset-team-10-ticketing",
-    storageBucket: "dorset-team-10-ticketing.appspot.com",
-    messagingSenderId: "208648291185",
-    appId: "1:208648291185:web:d3412413d1c3c29f3d2cd0",
+    apiKey: "AIzaSyCFZdsqHkdUmqyFBEk6s0gtW7QT8iOUURU",
+    authDomain: "dorset-team-10-ticketing-bef5c.firebaseapp.com",
+    projectId: "dorset-team-10-ticketing-bef5c",
+    storageBucket: "dorset-team-10-ticketing-bef5c.appspot.com",
+    messagingSenderId: "1015301773122",
+    appId: "1:1015301773122:web:0cc341a1f6ce91cf785adb",
     measurementId: "G-X09EYQ49G0"
   }
 };
